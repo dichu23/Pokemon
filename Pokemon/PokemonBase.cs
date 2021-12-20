@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,8 +16,16 @@ public class PokemonBase : ScriptableObject
     public string Description => description;
         
     [SerializeField] private Sprite frontSprite;
-    [SerializeField] private Sprite backSprite;
 
+    public Sprite FrontSprite
+    {
+        get => frontSprite;
+        set => frontSprite = value;
+    }
+    
+    [SerializeField] private Sprite backSprite;
+    public Sprite BackSprite => backSprite;
+    
     [SerializeField] private PokemonType type1;
     [SerializeField] private PokemonType type2;
     public PokemonType Type1 => type1;
@@ -38,8 +47,12 @@ public class PokemonBase : ScriptableObject
     public int SpAttack => spAttack;
     public int SpDefense => spDefense;
     public int Velocity => velocity;
-    
-    
+
+    [SerializeField] private List<LearnableMove> learnableMoves;
+
+    public List<LearnableMove> LearnableMoves => learnableMoves;
+
+
 }
 
 public enum PokemonType
@@ -59,4 +72,14 @@ public enum PokemonType
     Rock,
     Bug,
     Dragon,
+}
+[Serializable]
+public class LearnableMove
+{
+    [SerializeField] private MoveBase move;
+    [SerializeField] private int level;
+    
+    public MoveBase Move => move;
+    public int Level => level;
+
 }
