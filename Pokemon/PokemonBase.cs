@@ -10,8 +10,14 @@ public class PokemonBase : ScriptableObject
     [SerializeField] private int ID;
 
     [SerializeField] private string name;
-    public string Name => name;
-    
+
+    public string Name
+    {
+        get => name;
+        set => name = value;
+    }
+
+
     [TextArea] [SerializeField] private string description;
     public string Description => description;
         

@@ -15,6 +15,8 @@ public class BattleUnit : MonoBehaviour
 
     public Pokemon Pokemon { get; set; }
     
+    
+    //arreglar problema
     public void setupPokemon()
     {
        Pokemon = new Pokemon(_base, _level);

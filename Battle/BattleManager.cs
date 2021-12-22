@@ -38,8 +38,10 @@ public class BattleManager : MonoBehaviour
         playerUnit.setupPokemon();
         playerHud.SetPokemonData(playerUnit.Pokemon);
         
+        battleDialogueBox.SetPokemonMovments(playerUnit.Pokemon.Moves);
+        
         enemyUnit.setupPokemon();
-        enemyHud.SetPokemonData(playerUnit.Pokemon);
+        enemyHud.SetPokemonData(enemyUnit.Pokemon);
         
         yield return battleDialogueBox.SetDialogue($"An {enemyUnit.Pokemon.Base.Name} has appeared");
         yield return new WaitForSeconds(1.0f);
@@ -60,12 +62,70 @@ public class BattleManager : MonoBehaviour
     {
         state = BattleState.PlayerSelecAction;
         StartCoroutine(battleDialogueBox.SetDialogue("Select an action"));
+        battleDialogueBox.toggleDialogText(true);
         battleDialogueBox.toggleActions(true);
+        battleDialogueBox.toggleMovments(false);
+        currentSelectedAction = 0;
+        battleDialogueBox.SelectAction(currentSelectedAction);
+        
+    }
+
+    void PlayerMovment()
+    {
+        state = BattleState.PlayerMove;
+        battleDialogueBox.toggleDialogText(false);
+        battleDialogueBox.toggleActions(false);
+        battleDialogueBox.toggleMovments(true);
     }
 
     void EnemyAction()
     {
         
     }
+
+    private void Update()
+    {
+        timeSinceLastClick += Time.deltaTime;
+        
+        if (state == BattleState.PlayerSelecAction)
+        {
+            HandlePlayerActionSelection();
+        }
+    }
+
+    private int currentSelectedAction;
     
+    private float timeSinceLastClick;
+    public float timeBetweenClick = 1.0f;
+    void HandlePlayerActionSelection()
+    {
+        if (timeSinceLastClick < timeBetweenClick)
+        {
+            return;
+        }
+        if (Input.GetAxisRaw("Vertical") != 0)
+        {
+            timeSinceLastClick = 0;
+
+            currentSelectedAction = (currentSelectedAction+1) % 2;
+            
+            battleDialogueBox.SelectAction(currentSelectedAction);
+        }
+
+        if (Input.GetAxisRaw("Submit") != 0)
+        {
+            timeSinceLastClick = 0;
+            if (currentSelectedAction == 0)
+            {
+               PlayerMovment();
+            }else if(currentSelectedAction == 1)
+            {
+              //TODO:implemenar huida  
+            }
+            
+        }
+        
+
+        
+    }
 }
