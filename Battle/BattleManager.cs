@@ -91,6 +91,11 @@ public class BattleManager : MonoBehaviour
         {
             HandlePlayerActionSelection();
         }
+        else if (state == BattleState.PlayerMove)
+        {
+            HandlePlayerMovmentSelection();
+        }
+        
     }
 
     private int currentSelectedAction;
